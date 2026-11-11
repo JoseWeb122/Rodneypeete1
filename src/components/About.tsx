@@ -1,10 +1,15 @@
 import { ArrowRight, BadgeCheck, GraduationCap, Phone, Quote } from "lucide-react";
-import rodneyPhoto from "@/assets/rodney-peete.jpg";
+import { useState } from "react";
 import { BIO, CONTACT, EDUCATION, ROLES, TAGLINE } from "@/data/site";
 import { Reveal } from "./ui/Reveal";
 import { Eyebrow } from "./ui/SectionHeading";
 
+// Place the portrait at public/rodney-peete.jpg. Until it exists, a monogram placeholder is shown.
+const RODNEY_PHOTO_SRC = "/rodney-peete.jpg";
+
 export function About() {
+  const [photoFailed, setPhotoFailed] = useState(false);
+
   return (
     <section id="about" className="relative overflow-hidden bg-sand-100 py-24 sm:py-32">
       <div className="pointer-events-none absolute -top-40 -left-40 h-[32rem] w-[32rem] rounded-full bg-sand-200/70 blur-3xl" />
@@ -14,11 +19,22 @@ export function About() {
           <div className="relative">
             <div className="absolute inset-0 translate-x-5 translate-y-5 rounded-t-[999px] rounded-b-3xl border-2 border-sand-500/60" />
             <div className="relative overflow-hidden rounded-t-[999px] rounded-b-3xl bg-forest-800 shadow-2xl shadow-forest-950/30">
-              <img
-                src={rodneyPhoto}
-                alt="Portrait of Rodney C. Peete, real estate agent"
-                className="aspect-[4/5] w-full object-cover object-top"
-              />
+              {photoFailed ? (
+                <div
+                  role="img"
+                  aria-label="Rodney C. Peete monogram"
+                  className="grid aspect-[4/5] w-full place-items-center bg-linear-to-br from-forest-700 via-forest-800 to-forest-950"
+                >
+                  <span className="-mt-16 font-display text-8xl font-semibold tracking-tight text-sand-300/80">RP</span>
+                </div>
+              ) : (
+                <img
+                  src={RODNEY_PHOTO_SRC}
+                  alt="Portrait of Rodney C. Peete, real estate agent"
+                  className="aspect-[4/5] w-full object-cover object-top"
+                  onError={() => setPhotoFailed(true)}
+                />
+              )}
               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-forest-950/85 via-forest-950/40 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-7 pb-20 text-sand-50 sm:pb-24">
                 <p className="font-display text-3xl font-semibold">Rodney C. Peete</p>
